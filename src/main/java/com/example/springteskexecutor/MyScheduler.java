@@ -7,15 +7,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Worker {
+public class MyScheduler {
 
     @Autowired
     private AsyncService asyncService;
 
     private int count = 0;
 
-    @Scheduled(fixedDelay = 10000)
-    public void checkTheScedule() {
+    @Scheduled(fixedRate = 15000)
+    public void runTheTask() {
         count++;
         asyncService.executeAsync(count);;
     }
