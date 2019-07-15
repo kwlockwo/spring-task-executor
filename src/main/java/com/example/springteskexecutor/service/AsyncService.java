@@ -23,7 +23,7 @@ public class AsyncService {
     @Autowired
     private DataSource dataSource;
 
-    @Async
+    @Async("asyncTaskExecutor")
     public void executeAsync(int count) {
         for (int i = 1; i <= 15; i++) {
             try (Connection conn = dataSource.getConnection()) {
