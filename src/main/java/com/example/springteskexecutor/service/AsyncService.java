@@ -9,9 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
+import com.example.springteskexecutor.MyThread;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,12 @@ import org.springframework.stereotype.Service;
 public class AsyncService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AsyncService.class);
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private TaskExecutor taskExecutor;
 
     @Autowired
     private DataSource dataSource;
@@ -47,5 +57,10 @@ public class AsyncService {
                 LOGGER.info("Run: {}:{}, Thread: {}, Thread interrupted during sleep, Time: {}", count, i, Thread.currentThread().getName(), LocalTime.now());
             }
         }
+    }
+
+    public void executeThread(int count) {
+        MyThread exampleThread = applicationContext.getBean(MyThread.class);
+        taskExecutor.execute(exampleThread);
     }
 }
