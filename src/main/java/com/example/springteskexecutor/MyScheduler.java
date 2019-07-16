@@ -12,11 +12,18 @@ public class MyScheduler {
     @Autowired
     private AsyncService asyncService;
 
-    private int count = 0;
+    private int aCount = 0;
+    private int bCount = 0;
 
     @Scheduled(fixedRate = 15000)
     public void runTheTask() {
-        count++;
-        asyncService.executeAsync(count);;
+        aCount++;
+        asyncService.executeAsync(aCount);;
+    }
+
+    @Scheduled(fixedRate = 15000)
+    public void runTheThread() {
+        bCount++;
+        asyncService.executeThread(bCount);;
     }
 }

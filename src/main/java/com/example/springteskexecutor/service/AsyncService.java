@@ -60,7 +60,7 @@ public class AsyncService {
     }
 
     public void executeThread(int count) {
-        MyThread exampleThread = applicationContext.getBean(MyThread.class);
+        MyThread exampleThread = applicationContext.getBean(MyThread.class, count);
         taskExecutor.execute(exampleThread);
     }
 }
