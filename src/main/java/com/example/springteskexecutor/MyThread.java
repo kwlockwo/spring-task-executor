@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +25,7 @@ public class MyThread implements Runnable {
 
     private int count;
 
-    public MyThread(int count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
