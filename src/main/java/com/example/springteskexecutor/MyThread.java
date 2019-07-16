@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,16 +31,17 @@ public class MyThread implements Runnable {
     @Override
     public void run() {
         for (int i = 1; i <= 15; i++) {
-            try {
-                Connection connection = dataSource.getConnection();
-
-                Statement stmt = connection.createStatement();
+            try (Connection conn = dataSource.getConnection()) {
+                Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery("select uuid_generate_v4()");
 
                 while (rs.next()) {
-                    LOGGER.info("Run: {}, Thread: {}, UUID: {}, Time: {}", count, Thread.currentThread().getName(), rs.getString(1), LocalTime.now());
+                    LOGGER.info("Run: {}:{}, Thread: {}, UUID: {}, Time: {}", count, i, Thread.currentThread().getName(), rs.getString(1), LocalTime.now());
                 }
 
+                rs.close();
+                stmt.close();
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
